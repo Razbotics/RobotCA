@@ -75,13 +75,13 @@ public class RobotInfo implements Comparable<RobotInfo>, Savable {
     public RobotInfo() {
         //id = UUID.randomUUID();
         name = "Robot" + robotCount++;
-        masterUriString = "http://192.168.100.122:11311";
-        joystickTopic = "/cmd_vel";
-        cameraTopic = "/camera/rgb/image_raw/compressed";
-        laserTopic = "/scan";
+        masterUriString = "http://192.168.0.106:11311";
+        joystickTopic = "/android/cmd_vel";
+        cameraTopic = "/usb_cam/rgb/image_raw/compressed";
+        laserTopic = "/reversed/scan";
         navsatTopic = "/navsat/fix";
-        odometryTopic = "/odometry/filtered";
-        poseTopic = "/pose";
+        odometryTopic = "/raw_odom";
+        poseTopic = "/raw_pose";
         reverseLaserScan = false;
         invertX = false;
         invertY = false;
@@ -381,7 +381,7 @@ public class RobotInfo implements Comparable<RobotInfo>, Savable {
     public void load(@NonNull Bundle bundle) {
         id = UUID.fromString(bundle.getString(UUID_KEY, UUID.randomUUID().toString()));
         name = bundle.getString(ROBOT_NAME_KEY, "");
-        masterUriString = bundle.getString(MASTER_URI_KEY, "http://192.168.100.122:11311");
+        masterUriString = bundle.getString(MASTER_URI_KEY, "http://localhost:11311");
         joystickTopic = bundle.getString(JOYSTICK_TOPIC_KEY, "/cmd_vel");
         cameraTopic = bundle.getString(CAMERA_TOPIC_KEY, "/camera/rgb/image_raw/compressed");
         laserTopic = bundle.getString(LASER_SCAN_TOPIC_KEY, "/scan");

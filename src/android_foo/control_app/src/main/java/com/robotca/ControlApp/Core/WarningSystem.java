@@ -2,6 +2,7 @@ package com.robotca.ControlApp.Core;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.robotca.ControlApp.ControlApp;
 import com.robotca.ControlApp.R;
@@ -22,10 +23,12 @@ public class WarningSystem implements MessageListener<LaserScan> {
     private boolean enabled;
     private boolean safemode;
 
-    private static final float ANGLE_DELTA = (float) Math.toRadians(40.0);
+    private static final int ANGLE_DELTA = 40; //(float) Math.toRadians(40.0);
 
     /** The minimum distance at which to register laser scan points as dangerous */
-    public static final float MIN_DISTANCE = 0.25f;
+    public static final float MIN_DISTANCE = 0.15f;
+    public static final float MAX_DISTANCE = 5.0f;
+
 
     // Log tag String
     @SuppressWarnings("unused")
@@ -78,9 +81,10 @@ public class WarningSystem implements MessageListener<LaserScan> {
             return;
 
         float[] ranges = laserScan.getRanges();
-        float shortestDistance = ranges[ranges.length / 2];
+        float shortestDistance = MAX_DISTANCE; //ranges.length / 2]; //For centered lidar
 
-//        Log.d(TAG, "Original shortest distance: " + shortestDistance);
+
+         //Log.d(TAG, "Original shortest distance: " + shortestDistance);
 
         float angle = laserScan.getAngleMin();
 
@@ -89,18 +93,20 @@ public class WarningSystem implements MessageListener<LaserScan> {
 
         float angleIncrement = laserScan.getAngleIncrement();
 
-        for (int i = 0; i < laserScan.getRanges().length; i++) {
-            if (ranges[i] > MIN_DISTANCE && ranges[i] < shortestDistance
-                    && angle > -ANGLE_DELTA && angle < ANGLE_DELTA) {
-                shortestDistance = ranges[i];
+        for (int i = 0; i < ranges.length; i++) {
+            if((i > 0 && i < ANGLE_DELTA) || (i > ranges.length - ANGLE_DELTA)) {
+                if (ranges[i] > MIN_DISTANCE && ranges[i] < shortestDistance) {
+                    shortestDistance = ranges[i];
+                    //Log.d(TAG, "range: " + ranges[i]);
+                }
             }
 
-            angle += angleIncrement;
+            //angle += angleIncrement;
         }
 
         // Warn the ControlApp if necessary
         if (RobotController.getSpeed() > -0.1 &&
-                shortestDistance < minRange * Math.max(0.5, RobotController.getSpeed())) {
+                shortestDistance < minRange ) { //* (1.0f + RobotController.getSpeed())
 
             controlApp.collisionWarning();
         }

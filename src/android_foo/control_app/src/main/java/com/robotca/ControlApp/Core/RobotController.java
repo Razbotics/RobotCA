@@ -298,13 +298,21 @@ public class RobotController implements NodeMain, Savable {
     public void publishVelocity(double linearVelocityX, double linearVelocityY, double angularVelocityZ) {
         if (currentVelocityCommand != null) {
 
-            float scale = 1.0f;
+            float scale;
+            float linear_scale = 0.7f;  //custom linear scale according to your robot specs
+            float rot_scale = 2.0f;      //custom rot scale according to your robot specs
 
             try {
                 // Safe Mode
                 if (context.getWarningSystem().isSafemodeEnabled() && linearVelocityX >= 0.0) {
+
                     scale = (float) Math.pow(1.0f - context.getHUDFragment().getWarnAmount(), 2.0);
+                    //Log.d(TAG, "warning scale: " + context.getHUDFragment().getWarnAmount());
+                    if(context.getHUDFragment().getWarnAmount() > 0.65f){
+                        scale = 0;
+                    }
                 }
+                else scale = (float) 1.0;
             }
             catch(Exception e){
                 scale = 0;
@@ -323,14 +331,14 @@ public class RobotController implements NodeMain, Savable {
                 angularVelocityZ *= -1;
             }
 
-            currentVelocityCommand.getLinear().setX(linearVelocityX * scale);
-            currentVelocityCommand.getLinear().setY(-linearVelocityY * scale);
+            currentVelocityCommand.getLinear().setX(linearVelocityX * scale * linear_scale);
+            currentVelocityCommand.getLinear().setY(-linearVelocityY * scale * linear_scale);
             currentVelocityCommand.getLinear().setZ(0.0);
             currentVelocityCommand.getAngular().setX(0.0);
             currentVelocityCommand.getAngular().setY(0.0);
-            currentVelocityCommand.getAngular().setZ(-angularVelocityZ);
+            currentVelocityCommand.getAngular().setZ(-angularVelocityZ * rot_scale);
         } else {
-            Log.w("Emergency Stop", "currentVelocityCommand is null");
+            //Log.w("Emergency Stop", "currentVelocityCommand is null");
         }
     }
 
@@ -698,7 +706,7 @@ public class RobotController implements NodeMain, Savable {
             this.pose = pose;
         }
 
-        Log.d("RobotController", "Pose Set");
+        //Log.d("RobotController", "Pose Set");
 //        // Record position
 //        if (startPos == null) {
 //            startPos = pose.getPosition();

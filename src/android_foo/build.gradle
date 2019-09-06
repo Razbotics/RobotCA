@@ -14,8 +14,8 @@
  * the License.
  */
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.3'
+wrapper{
+    gradleVersion = '4.6'
 }
 
 buildscript {
@@ -23,7 +23,7 @@ buildscript {
     apply from: "https://github.com/rosjava/android_core/raw/kinetic/buildscript.gradle"
     dependencies {
         //Add this to fix the gradle plugin issues
-        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.android.tools.build:gradle:3.1.0'
 
         // TEST
         classpath 'junit:junit:4.12'
@@ -38,6 +38,12 @@ allprojects {
     /* A github url provides a good standard unique name for your project */
     group 'com.github.sccapstone.robotca'
     //version = project.catkin.pkg.version
+    repositories {
+        jcenter()
+        maven {
+            url "https://maven.google.com"
+        }
+    }
 }
 
 subprojects {

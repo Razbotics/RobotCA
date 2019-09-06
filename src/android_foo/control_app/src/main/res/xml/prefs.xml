@@ -123,7 +123,7 @@
         android:summary="@string/prefs_advanced_control_settings_summary"
         android:title="@string/advanced_controls__pref_title">
         <com.robotca.ControlApp.Views.BetterEditTextPreference
-            android:defaultValue="500"
+            android:defaultValue="5"
             android:inputType="number"
             android:key="edittext_laser_scan_detail"
             android:singleLine="true"
@@ -131,14 +131,14 @@
             android:title="@string/laser_scan_detail_pref_title" />
 
         <com.robotca.ControlApp.Views.BetterEditTextPreference
-            android:defaultValue="3.0"
+            android:defaultValue="0.5"
             android:inputType="numberDecimal"
             android:key="edittext_random_walk_range_proximity"
             android:singleLine="true"
             android:summary="@string/random_walk_range_minimum_pref_summary"
             android:title="@string/random_walk_range_minimum_pref_title" />
 
-        <!--
+
         <SwitchPreference
             android:checked="true"
             android:defaultValue="true"
@@ -146,7 +146,7 @@
             android:summaryOff="@string/reverse_angle_reading_summary_off"
             android:summaryOn="@string/reverse_angle_reading_summary_on"
             android:title="@string/reverse_angle_reading_title" />
-        -->
+
         <SwitchPreference
             android:checked="false"
             android:defaultValue="false"

@@ -9,6 +9,7 @@ import android.media.ToneGenerator;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,8 +60,9 @@ public class HUDFragment extends SimpleFragment implements MessageListener<Odome
     private float warnAmount;
     private long lastWarn;
     private static final long WARN_DELAY = 100L;
-    private static final float WARN_AMOUNT_INCR = 0.02f;
-    private static final float WARN_AMOUNT_ATTEN = 0.75f;
+    private static final float WARN_AMOUNT_INCR = 0.1f;
+    private static final float WARN_AMOUNT_INCR_PERCENT = 0.5f;
+    private static final float WARN_AMOUNT_ATTEN = 0.9f;
 
     private long lastWarnTime;
     private static final long WARN_RATE = 10L;
@@ -110,7 +112,7 @@ public class HUDFragment extends SimpleFragment implements MessageListener<Odome
         }
 
         // Get WifiManager
-        wifiManager = (WifiManager) getActivity().getSystemService(Context.WIFI_SERVICE);
+        wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         
         // Find the Emergency Stop Button
         // Emergency stop button
@@ -182,8 +184,10 @@ public class HUDFragment extends SimpleFragment implements MessageListener<Odome
         if (System.currentTimeMillis() - lastWarnTime > WARN_RATE) {
             lastWarnTime = System.currentTimeMillis();
 
-            warnAmount = Math.min(1.0f, warnAmount + WARN_AMOUNT_INCR);
+            warnAmount = Math.min(1.0f, warnAmount + WARN_AMOUNT_INCR * (1.0f + WARN_AMOUNT_INCR_PERCENT));
             lastWarn = System.currentTimeMillis();
+
+            //Log.d(TAG, "warning scale: " + warnAmount);
 
             if (beepsEnabled && warnAmount > DANGER_WARN_AMOUNT && lastWarn - lastToneTime > TONE_DELAY
                     && RobotController.getSpeed() > 0.01) {
@@ -382,6 +386,7 @@ public class HUDFragment extends SimpleFragment implements MessageListener<Odome
 
                         if (warnAmount < 0.05f)
                             warnAmount = 0.0f;
+
                     }
                 }
 

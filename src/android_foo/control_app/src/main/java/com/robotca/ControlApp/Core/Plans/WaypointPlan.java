@@ -27,8 +27,8 @@ public class WaypointPlan extends RobotPlan {
     private final static double EPSILON = 0.01;
     private final static double D_SAFE = 0.25;
     private final static double KAPPA = 0.4;
-    private final static double FORWARD_SPEED_MPS = 0.75;
-    private static final double MINIMUM_DISTANCE = 1.0;
+    private final static double FORWARD_SPEED_MPS = 1.0;
+    private static final double MINIMUM_DISTANCE = 0.3;
 
     // Reference to the ControlApp
     private ControlApp controlApp;

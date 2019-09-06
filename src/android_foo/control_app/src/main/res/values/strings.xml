@@ -4,10 +4,10 @@
     <string name="app_name">ROS Control</string>
     <!-- Topic values -->
     <string name="joy_topic">/cmd_vel</string>
-    <string name="camera_topic">/camera/rgb/image_raw/compressed</string>
-    <string name="laser_scan_topic">/scan</string>
-    <string name="odometry_topic">/odometry/filtered</string>
-    <string name="pose_topic">/pose</string>
+    <string name="camera_topic">/usb_cam/rgb/image_raw/compressed</string>
+    <string name="laser_scan_topic">/reversed/scan</string>
+    <string name="odometry_topic">/raw_odom</string>
+    <string name="pose_topic">/raw_pose</string>
     <string name="navsat_topic">/navsat/fix</string>
 
     <!-- Preference titles -->
@@ -160,7 +160,7 @@
 
 
     <!-- Default Preference values -->
-    <string name="default_warning_mindist">3.0</string>
+    <string name="default_warning_mindist">1.0</string>
     <string name="noCamera">No Camera</string>
     <string name="prefs_advanced_control_settings_key">prefs_advanced_control_settings</string>
     <string name="prefs_advanced_control_settings_summary">Edit advanced control settings</string>

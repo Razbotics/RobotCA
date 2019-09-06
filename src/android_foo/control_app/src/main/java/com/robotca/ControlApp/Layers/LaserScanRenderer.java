@@ -48,7 +48,7 @@ public class LaserScanRenderer implements GLSurfaceView.Renderer, MessageListene
     private static final float MIN_DISTANCE_SQUARED = 20.0e-2f; // meters
 
     // Used for calculating range color
-    private static final float MAX_DISTANCE = 10.0f; // meters
+    private static final float MAX_DISTANCE = 6.0f; // meters
 
     // The base cameraZoom amount
     private static final float BASE_ZOOM = 100f;
@@ -91,6 +91,8 @@ public class LaserScanRenderer implements GLSurfaceView.Renderer, MessageListene
 
     // Controls the density of scan points
     private float laserScanDetail;
+    private int invert_laser_scan = 1;
+
 
     // Lock for synchronizing drawing
     private final Object mutex;
@@ -112,6 +114,7 @@ public class LaserScanRenderer implements GLSurfaceView.Renderer, MessageListene
     public LaserScanRenderer(final ControlApp controlApp) {
         this.controlApp = controlApp;
         this.mutex = new Object();
+
 
         this.laserScanDetail = Float.parseFloat(PreferenceManager
                         .getDefaultSharedPreferences(controlApp)
@@ -470,6 +473,9 @@ public class LaserScanRenderer implements GLSurfaceView.Renderer, MessageListene
      * @param laserScan The LaserScan
      */
     private void updateVertexBuffer(LaserScan laserScan) {
+        if(PreferenceManager.getDefaultSharedPreferences(controlApp).getBoolean("prefs_reverse_angle_reading_key", true)){
+            invert_laser_scan = -1;
+        }
         float[] ranges = laserScan.getRanges();
         int size = ((ranges.length) + 2) * (3 + 4);
 
@@ -519,8 +525,8 @@ public class LaserScanRenderer implements GLSurfaceView.Renderer, MessageListene
                 ranges[i] = MAX_RANGE;
 
             // x, y, z
-            x = (float) (ranges[i] * Math.cos(angle));
-            y = -(float) (ranges[i] * Math.sin(angle));
+            x = -(float) (ranges[i] * Math.cos(angle)) * invert_laser_scan;
+            y = (float) (ranges[i] * Math.sin(angle)) * invert_laser_scan;
 
             p = ranges[i];
 

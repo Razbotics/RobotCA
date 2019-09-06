@@ -17,12 +17,12 @@ import org.ros.rosjava_geometry.Vector3;
  */
 public class SimpleWaypointPlan extends RobotPlan {
 
-    private static final double MINIMUM_DISTANCE = 1.0;
+    private static final double MINIMUM_DISTANCE = 0.3;
     private final ControlApp controlApp;
 
     private static final String TAG = "SimpleWaypointPlan";
 
-    private static final double MAX_SPEED = 0.75;
+    private static final double MAX_SPEED = 1.0;
 
     /**
      * Creates a SimpleWaypointPlan for the specified ControlApp.
