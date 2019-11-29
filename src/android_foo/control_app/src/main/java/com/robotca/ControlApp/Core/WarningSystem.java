@@ -23,8 +23,8 @@ public class WarningSystem implements MessageListener<LaserScan> {
     private boolean enabled;
     private boolean safemode;
 
-    private static final int ANGLE_DELTA = 40; //(float) Math.toRadians(40.0);
-
+    private static final int ANGLE_DELTA = 40;
+    //private static final float ANGLE_DELTA = (float) Math.toRadians(40.0);
     /** The minimum distance at which to register laser scan points as dangerous */
     public static final float MIN_DISTANCE = 0.15f;
     public static final float MAX_DISTANCE = 5.0f;
@@ -81,28 +81,29 @@ public class WarningSystem implements MessageListener<LaserScan> {
             return;
 
         float[] ranges = laserScan.getRanges();
-        float shortestDistance = MAX_DISTANCE; //ranges.length / 2]; //For centered lidar
+        float shortestDistance = ranges[0]; //MAX_DISTANCE; //ranges.length / 2]; //For centered lidar
 
 
          //Log.d(TAG, "Original shortest distance: " + shortestDistance);
 
-        float angle = laserScan.getAngleMin();
+        //float angle = laserScan.getAngleMin();
 
         // Correct for the Robot's turn rate
-        angle += (float) RobotController.getTurnRate();
+        //angle += (float) RobotController.getTurnRate();
 
-        float angleIncrement = laserScan.getAngleIncrement();
+        //float angleIncrement = laserScan.getAngleIncrement();
 
         for (int i = 0; i < ranges.length; i++) {
             if((i > 0 && i < ANGLE_DELTA) || (i > ranges.length - ANGLE_DELTA)) {
-                if (ranges[i] > MIN_DISTANCE && ranges[i] < shortestDistance) {
+                if (ranges[i] > MIN_DISTANCE && ranges[i] < shortestDistance && ranges[i] != Double.NaN) {
                     shortestDistance = ranges[i];
                     //Log.d(TAG, "range: " + ranges[i]);
                 }
             }
 
-            //angle += angleIncrement;
         }
+
+
 
         // Warn the ControlApp if necessary
         if (RobotController.getSpeed() > -0.1 &&

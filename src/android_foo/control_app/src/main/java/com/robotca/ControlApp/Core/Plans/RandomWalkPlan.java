@@ -39,25 +39,27 @@ public class RandomWalkPlan extends RobotPlan {
         // Laser scan data
         float[] ranges;
         // Temporary variables
-        float shortestDistance, angle, angleDelta, angleIncrement;
+        float shortestDistance;//angle, angleDelta, angleIncrement;
+        float ANGLE_DELTA = 30;
+        float MIN_DISTANCE = 0.15f;
 
         while(!isInterrupted()) {
             LaserScan laserScan = controller.getLaserScan();
 
             ranges = laserScan.getRanges();
-            shortestDistance = ranges[ranges.length / 2];
-            angle = laserScan.getAngleMin();
-            angleDelta = (float) Math.toRadians(30);
-            angleIncrement = laserScan.getAngleIncrement();
+            shortestDistance = ranges[0];
+            //angle = laserScan.getAngleMin();
+            //angleDelta = (float) Math.toRadians(30);
+            //angleIncrement = laserScan.getAngleIncrement();
 
             // Find the shortest range
             for (int i = 0; i < laserScan.getRanges().length; i++) {
-                if (ranges[i] < shortestDistance && angle > -angleDelta && angle < angleDelta) {
-                    shortestDistance = ranges[i];
+                if((i > 0 && i < ANGLE_DELTA) || (i > ranges.length - ANGLE_DELTA)) {
+                    if (ranges[i] > MIN_DISTANCE && ranges[i] < shortestDistance && ranges[i] != Double.NaN) {
+                        shortestDistance = ranges[i];
+                    }
                 }
-
-                angle += angleIncrement;
-            }
+                }
 
             // If a wall is close, stop, turn a random amount, and continue moving
             if (shortestDistance < minRange) {

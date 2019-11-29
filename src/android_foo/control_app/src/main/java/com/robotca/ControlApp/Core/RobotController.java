@@ -299,8 +299,8 @@ public class RobotController implements NodeMain, Savable {
         if (currentVelocityCommand != null) {
 
             float scale;
-            float linear_scale = 0.7f;  //custom linear scale according to your robot specs
-            float rot_scale = 2.0f;      //custom rot scale according to your robot specs
+            float linear_scale = Float.parseFloat(PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.prefs_max_linear_vel_key), context.getString(R.string.default_max_linear_vel)));  //custom linear scale according to your robot specs
+            float rot_scale = Float.parseFloat(PreferenceManager.getDefaultSharedPreferences(context).getString(context.getString(R.string.prefs_max_rot_vel_key), context.getString(R.string.default_max_rot_vel)));;      //custom rot scale according to your robot specs
 
             try {
                 // Safe Mode

@@ -138,6 +138,22 @@
             android:summary="@string/random_walk_range_minimum_pref_summary"
             android:title="@string/random_walk_range_minimum_pref_title" />
 
+        <com.robotca.ControlApp.Views.BetterEditTextPreference
+            android:defaultValue="@string/default_max_linear_vel"
+            android:inputType="numberDecimal"
+            android:key="@string/prefs_max_linear_vel_key"
+            android:singleLine="true"
+            android:summary="@string/max_linear_velocity_pref_summary"
+            android:title="@string/max_linear_vel" />
+
+        <com.robotca.ControlApp.Views.BetterEditTextPreference
+            android:defaultValue="@string/default_max_rot_vel"
+            android:inputType="numberDecimal"
+            android:key="@string/prefs_max_rot_vel_key"
+            android:singleLine="true"
+            android:summary="@string/max_rotational_velocity_pref_summary"
+            android:title="@string/max_rot_vel" />
+
 
         <SwitchPreference
             android:checked="true"

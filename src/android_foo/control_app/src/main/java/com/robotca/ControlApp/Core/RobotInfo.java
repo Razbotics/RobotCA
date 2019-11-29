@@ -76,12 +76,12 @@ public class RobotInfo implements Comparable<RobotInfo>, Savable {
         //id = UUID.randomUUID();
         name = "Robot" + robotCount++;
         masterUriString = "http://192.168.0.106:11311";
-        joystickTopic = "/android/cmd_vel";
-        cameraTopic = "/usb_cam/rgb/image_raw/compressed";
-        laserTopic = "/reversed/scan";
+        joystickTopic = "/cmd_vel";
+        cameraTopic = "/camera/rgb/image_raw/compressed";
+        laserTopic = "/scan";
         navsatTopic = "/navsat/fix";
-        odometryTopic = "/raw_odom";
-        poseTopic = "/raw_pose";
+        odometryTopic = "/odometry/filtered";
+        poseTopic = "/pose";
         reverseLaserScan = false;
         invertX = false;
         invertY = false;

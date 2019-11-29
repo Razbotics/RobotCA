@@ -28,7 +28,7 @@ public class WaypointPlan extends RobotPlan {
     private final static double D_SAFE = 0.25;
     private final static double KAPPA = 0.4;
     private final static double FORWARD_SPEED_MPS = 1.0;
-    private static final double MINIMUM_DISTANCE = 0.3;
+    private static final double MINIMUM_DISTANCE = 0.5;
 
     // Reference to the ControlApp
     private ControlApp controlApp;
@@ -118,9 +118,9 @@ public class WaypointPlan extends RobotPlan {
         Log.d("ControlApp", String.format("Attr. Force: (%f, %f)", attractiveForce.getX(), attractiveForce.getY()));
 
         for (int i = 0; i < laserScan.getRanges().length; i++) {
-            //Husky laser ranges go from max to min
-            double angleOffset = laserScan.getAngleMax() - laserScan.getAngleIncrement() * i;
-            double angle = angleOffset + currentHeading; //correct for robot heading
+            //RPLidar laser ranges go from min to max
+            double angleOffset = laserScan.getAngleMin() + laserScan.getAngleIncrement() * i;
+            double angle = angleOffset + currentHeading + 180.0; //correct for robot heading
             double distance = laserScan.getRanges()[i];
             double scalar = 0;
 
